@@ -4,33 +4,36 @@ namespace App\Http\Controllers;
 
 use App\Models\Cliente;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Response;
+use Barryvdh\DomPDF\Facade\Pdf as PDF;
 
 class ClientesController extends Controller
 {
     public function store(Request $request)
     {
+
         // Valide os dados do formulário antes de criar o cliente
         $validatedData = $request->validate([
             'name' => 'required|max:255',
             'contato' => 'required|max:255',
+            'endereco' => 'required|max:255',
+            'servico' => 'required|max:255',
+            'valor' => 'required|max:255',
             'vencimento' => 'required|date',
+            'datadenascimento' => 'required|date',
         ]);
 
         // Crie um novo cliente no banco de dados usando o modelo Cliente
-        try {
-            Cliente::create($request->all());
-        } catch(\Exception $e) {
-            return $e->getMessage();
-        }
+        $cliente = Cliente::create($request->all());
 
-        // Redirecione para a página adequada após a criação do cliente
-        // return redirect('/clientes')->with('success', 'Cliente criado com sucesso!');
+        // Retorne o ID do cliente na resposta
+        return response()->json(['id' => $cliente->id]);
     }
 
     public function index()
     {
-        $clientes = Cliente::all();
 
+        $clientes = Cliente::orderBy('created_at', 'desc')->paginate(8);
 
         return response()->json($clientes);
     }
@@ -43,7 +46,11 @@ class ClientesController extends Controller
         $validatedData = $request->validate([
             'name' => 'required|max:255',
             'contato' => 'required|max:255',
+            'endereco' => 'required|max:255',
+            'servico' => 'required|max:255',
+            'valor' => 'required|max:255',
             'vencimento' => 'required|date',
+            'datadenascimento' => 'required|date',
             'status' => 'required',
         ]);
 
@@ -61,4 +68,45 @@ class ClientesController extends Controller
 
         return response()->json($cliente);
     }
+
+
+    public function delete($id)
+    {
+        $cliente = Cliente::findOrFail($id);
+        $cliente->delete();
+    }
+
+    public function downloadUserData($id)
+    {
+        $cliente = Cliente::findOrFail($id);
+
+        // Crie um array com os dados que você deseja incluir no arquivo
+        $data = [
+            'Nome: ' => $cliente->name,
+            'Contato: ' => $cliente->contato,
+            'Endereço: ' => $cliente->endereco,
+            'Serviço: ' => $cliente->servico,
+            'Valor: ' => $cliente->valor,
+            // Adicione outros campos aqui conforme necessário
+        ];
+
+        // Se a opção de pagamento estiver selecionada, adicione a data do pagamento aos dados
+        if ($cliente->status == 'pago') {
+            $data['Data do Pagamento: '] = $cliente->created_at;
+        }
+
+        $data['Data de Vencimento: '] = $cliente->vencimento;
+
+        // Crie uma view com os dados
+        $pdf = PDF::loadView('user_data', ['data' => $data]);
+
+        // Defina o nome do arquivo PDF
+        $filename = 'recibo_' . $cliente->name . '.pdf';
+
+        // Faça o download do PDF
+        return $pdf->download($filename);
+    }
+
+
+
 }

@@ -9,8 +9,8 @@ module.exports = {
         extend: {
             colors: {
                 gym: {
-                    red100: "#C95555",
-                    red200: "#932424",
+                    blue100: "#6AACE5",
+                    blue200: "#4677A2",
                 },
             },
         },

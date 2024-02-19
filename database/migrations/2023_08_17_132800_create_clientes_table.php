@@ -15,7 +15,11 @@ return new class () extends Migration {
             $table->timestamps();
             $table->string('name');
             $table->string('contato');
+            $table->string('endereco');
+            $table->string('servico');
+            $table->string('valor');
             $table->timestamp('vencimento')->nullable();
+            $table->timestamp('datadenascimento')->nullable();
             $table->enum('status', ['pago', 'vencido', 'pendente']);
         });
     }
