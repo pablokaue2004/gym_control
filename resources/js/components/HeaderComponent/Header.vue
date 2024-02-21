@@ -27,7 +27,7 @@
                 K
             </div>
             <div class="tw-flex tw-flex-col tw-ml-3">
-                <span class="tw-font-bold">Evaldo</span>
+                <span class="tw-font-bold">Kauê</span>
                 <span class="tw-text-sm">Admin</span>
             </div>
         </div>

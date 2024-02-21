@@ -133,8 +133,10 @@
                     </div>
                 </div>
             </div>
-            <div class="tw-w-10/12 tw-flex tw-items-center tw-justify-center tw-overflow-x-auto lg:tw-overflow-x-hidden tw-py-4">
-                <div v-if="dataResults.length == 0" class="tw-w-3/4 tw-p-3 tw-rounded-lg tw-flex tw-justify-center tw-bg-white tw-shadow-md tw-mt-1">
+            <div
+                class="tw-w-10/12 tw-flex tw-items-center tw-justify-center tw-overflow-x-auto lg:tw-overflow-x-hidden tw-py-4">
+                <div v-if="dataResults.length == 0"
+                    class="tw-w-3/4 tw-p-3 tw-rounded-lg tw-flex tw-justify-center tw-bg-white tw-shadow-md tw-mt-1">
                     <span class="tw-font-bold">Não existe dados na tabela :/</span>
                 </div>
 
@@ -552,7 +554,21 @@ export default {
                 this.$emit("close");
 
                 this.downloadUserData(response.data.id);
+                Swal.fire({
+                    position: "top-end",
+                    icon: "success",
+                    title: "Cliente cadastrado",
+                    showConfirmButton: false,
+                    timer: 1500
+                });
             } catch (error) {
+                Swal.fire({
+                    position: "top-end",
+                    icon: "error",
+                    title: "Erro ao criar cliente",
+                    showConfirmButton: false,
+                    timer: 1500
+                });
                 console.error("Erro ao criar cliente:", error);
             }
         },
@@ -581,10 +597,24 @@ export default {
             axios
                 .put(`/clientes/${clientId}`, this.selectedClient)
                 .then((response) => {
-                    this.listClientes(); // Atualiza a lista de clientes após a atualização
-                    this.toggleViewEdit(clientId); // Fecha o modal de edição
+                    this.listClientes();
+                    Swal.fire({
+                        position: "top-end",
+                        icon: "success",
+                        title: "Cliente editado",
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                    this.toggleViewEdit(clientId);
                 })
                 .catch((error) => {
+                    Swal.fire({
+                        position: "top-end",
+                        icon: "error",
+                        title: "Erro ao atualizar o cliente",
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
                     console.error("Erro ao atualizar o cliente:", error);
                 });
         },
