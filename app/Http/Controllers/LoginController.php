@@ -15,24 +15,23 @@ class LoginController extends Controller
         if (Auth::attempt($credentials)) {
             // Autenticação bem-sucedida
             $user = Auth::user();
-            $token = $user->createToken('authToken')->plainTextToken;
+            $token = $user->createToken('token')->plainTextToken;
 
-            return response()->json(['authToken' => $token, 'message' => 'Login bem-sucedido']);
+            return response()->json(['token' => $token, 'message' => 'Login bem-sucedido']);
         } else {
             // Autenticação falhou
-             return response()->json(['message' => 'Credenciais inválidas'], 401);
+            return response()->json(['message' => 'Credenciais inválidas'], 401);
         }
     }
 
     public function logout(Request $request)
-    {
-
-        if ($request->user()) {
-            $request->user()->token()->revoke();
-        }
-
-        return response()->json([
-           'message' => 'Successfully logged out'
-        ]);
+{
+    if ($request->user()) {
+        $request->user()->token()->revoke();
     }
+
+    return response()->json([
+        'message' => 'Successfully logged out'
+    ]);
+}
 }

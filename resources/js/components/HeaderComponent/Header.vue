@@ -39,8 +39,14 @@ export default {
     methods: {
         logout() {
             axios.post('/api/logout').then(() => {
-                window.location = '/'
-            })
+                // Limpe o token do localStorage
+                localStorage.removeItem('token');
+
+                // Redirecione o usuário para a página de login
+                this.$router.push('/');
+            }).catch(error => {
+                console.error('Erro ao fazer logout:', error);
+            });
         }
     }
 }

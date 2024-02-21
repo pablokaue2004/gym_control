@@ -15,6 +15,7 @@ class ClientesController extends Controller
         // Valide os dados do formulário antes de criar o cliente
         $validatedData = $request->validate([
             'name' => 'required|max:255',
+            'cpf' => 'required|max:255',
             'contato' => 'required|max:255',
             'endereco' => 'required|max:255',
             'servico' => 'required|max:255',
@@ -30,13 +31,42 @@ class ClientesController extends Controller
         return response()->json(['id' => $cliente->id]);
     }
 
-    public function index()
+    public function index(Request $request)
     {
+        $clientes = Cliente::orderBy('created_at', 'desc')
+        ->when($request->has('search'), function ($query) use ($request) {
+            return $query->where(function ($subquery) use ($request) {
+                $searchType = $request->get('status');
 
-        $clientes = Cliente::orderBy('created_at', 'desc')->paginate(8);
+                if ($searchType === 'pago') {
+                    $subquery->where('status', 'pago');
+                } elseif ($searchType === 'vencido') {
+                    $subquery->where('status', 'vencido');
+                } elseif ($searchType === 'pendente') {
+                    $subquery->where('status', 'pendente');
+                }
+            });
+        })
+        ->when($request->has('search'), function ($query) use ($request) {
+            return $query->where(function ($subquery) use ($request) {
+                $searchType = $request->get('searchType');
+                $searchValue = $request->has('search') && $request->filled('search') ? mb_strtolower($request->get('search')) : '';
+
+                if ($searchType === 'autor') {
+                    $subquery->where('name', 'like', '%' . $searchValue . '%');
+                } elseif ($searchType === 'idUser') {
+                    $subquery->where('id', 'like', '%' . trim($searchValue) . '%');
+                } elseif ($searchType === 'cpfUser') {
+                    $subquery->where('cpf', 'like', '%' . trim($searchValue) . '%');
+                }
+            });
+        })
+        ->paginate(8);
 
         return response()->json($clientes);
+
     }
+
 
     public function update(Request $request, $id)
     {
@@ -45,6 +75,7 @@ class ClientesController extends Controller
         // Valide os dados do formulário antes de atualizar o cliente
         $validatedData = $request->validate([
             'name' => 'required|max:255',
+            'cpf' => 'required|max:255',
             'contato' => 'required|max:255',
             'endereco' => 'required|max:255',
             'servico' => 'required|max:255',
@@ -83,6 +114,7 @@ class ClientesController extends Controller
         // Crie um array com os dados que você deseja incluir no arquivo
         $data = [
             'Nome: ' => $cliente->name,
+            'CPF: ' => $cliente->cpf,
             'Contato: ' => $cliente->contato,
             'Endereço: ' => $cliente->endereco,
             'Serviço: ' => $cliente->servico,

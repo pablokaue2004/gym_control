@@ -14,6 +14,7 @@ return new class () extends Migration {
             $table->id();
             $table->timestamps();
             $table->string('name');
+            $table->string('cpf');
             $table->string('contato');
             $table->string('endereco');
             $table->string('servico');

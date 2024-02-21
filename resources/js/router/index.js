@@ -22,7 +22,7 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
     const requiresAuth = to.matched.some((record) => record.meta.requiresAuth);
-    const isAuthenticated = localStorage.getItem("authToken");
+    const isAuthenticated = localStorage.getItem("token");
 
     if (requiresAuth && !isAuthenticated) {
         console.warn("Unauthorized access: Redirecting to Login");

@@ -9,10 +9,11 @@
                     class="tw-bg-gym-blue100 tw-text-white tw-py-2 tw-px-4 tw-rounded tw-font-medium tw-transition tw-duration-300 tw-ease-in-out hover:tw-bg-gym-blue200">
                     Cadastrar clientes
                 </button>
-                <Modal :showModal="showModalview" :titleModal="'Adicionar Clientes'" :maxWSize="'tw-max-w-full lg:tw-max-w-[30%]'" @close="() => {
-                    showModalview = false;
-                }
-                    ">
+                <Modal :showModal="showModalview" :titleModal="'Adicionar Clientes'"
+                    :maxWSize="'tw-max-w-full lg:tw-max-w-[30%]'" @close="() => {
+                        showModalview = false;
+                    }
+                        ">
                     <div class="tw-flex tw-items-center tw-w-full tw-flex-col">
                         <div class="tw-w-full">
                             <h6 style="margin-bottom: 0"
@@ -20,6 +21,12 @@
                                 Nome
                             </h6>
                             <input rows="1" v-model="cliente.name" placeholder="ex: Pablo Kauê"
+                                class="tw-border tw-border-gray-400 tw-w-full tw-p-2 tw-mt-2 tw-outline-none" />
+                            <h6 style="margin-bottom: 0"
+                                class="tw-font-medium tw-text-sm tw-whitespace-normal tw-text-secondary-700 dark:text-secondary-400">
+                                CPF
+                            </h6>
+                            <input rows="1" v-model="cliente.cpf" placeholder="ex: 000.000.000-00"
                                 class="tw-border tw-border-gray-400 tw-w-full tw-p-2 tw-mt-2 tw-outline-none" />
                             <h6 style="margin-bottom: 0"
                                 class="tw-font-medium tw-text-sm tw-whitespace-normal tw-text-secondary-700 dark:text-secondary-400 tw-mt-3">
@@ -92,14 +99,58 @@
                     </div>
                 </Modal>
             </div>
-            <div class="tw-w-10/12 tw-overflow-x-auto lg:tw-overflow-x-hidden tw-py-4">
-                <table class="tw-w-full tw-table-auto">
-                    <!-- Table header -->
+            <div class="tw-flex tw-flex-col tw-w-3/4 tw-mt-2 lg:tw-gap-2 lg:tw-flex-row">
+                <div>
+                    <h6>Pesquisar</h6>
+                    <div class="tw-grid tw-w-full tw-grid-cols-1 tw-gap-1 ">
+                        <div class="tw-mb-3 tw-w-full tw-flex tw-items-center">
+                            <input v-model="filters.search" placeholder="Pesquisar" required type="text"
+                                class=" tw-p-2 tw-w-full tw-border tw-rounded" />
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <h6>Somente por</h6>
+                    <div class="tw-mb-3 tw-w-full tw-flex tw-items-center">
+                        <select v-model="filters.searchType"
+                            class="tw-form-select tw-p-2 tw-w-full tw-mt-1 tw-block tw-pl-3 tw-pr-10 tw-py-2 tw-text-base tw-border-gray-300 focus:tw-outline-none focus:tw-ring-indigo-500 focus:tw-border-indigo-500 sm:tw-text-sm tw-rounded-md">
+                            <option value="autor">Autor</option>
+                            <option value="idUser">Id do user</option>
+                            <option value="cpfUser">Cpf do user</option>
+                        </select>
+                    </div>
+                </div>
+                <div>
+                    <h6>Status</h6>
+                    <div class="tw-mb-3 tw-w-full tw-flex tw-items-center">
+                        <select v-model="filters.status"
+                            class="tw-form-select tw-p-2 tw-w-full tw-mt-1 tw-block tw-pl-3 tw-pr-10 tw-py-2 tw-text-base tw-border-gray-300 focus:tw-outline-none focus:tw-ring-indigo-500 focus:tw-border-indigo-500 sm:tw-text-sm tw-rounded-md">
+                            <option value="">Todos</option>
+                            <option value="pago">Pago</option>
+                            <option value="vencido">Vencido</option>
+                            <option value="pendente">Á vencer</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="tw-w-10/12 tw-flex tw-items-center tw-justify-center tw-overflow-x-auto lg:tw-overflow-x-hidden tw-py-4">
+                <div v-if="dataResults.length == 0" class="tw-w-3/4 tw-p-3 tw-rounded-lg tw-flex tw-justify-center tw-bg-white tw-shadow-md tw-mt-1">
+                    <span class="tw-font-bold">Não existe dados na tabela :/</span>
+                </div>
+
+                <table v-else class="tw-w-full tw-table-auto">
+
                     <thead
                         class="tw-text-xs tw-font-semibold tw-uppercase tw-border-t tw-border-b tw-text-gray-500 tw-bg-gray-50 tw-border-gray-200">
                         <tr>
                             <th class="tw-px-2 tw-py-3 first:tw-pl-5 last:tw-pr-5 tw-whitespace-nowrap">
+                                <div class="tw-font-semibold tw-text-left">Id</div>
+                            </th>
+                            <th class="tw-px-2 tw-py-3 first:tw-pl-5 last:tw-pr-5 tw-whitespace-nowrap">
                                 <div class="tw-font-semibold tw-text-left">Nome</div>
+                            </th>
+                            <th class="tw-px-2 tw-py-3 first:tw-pl-5 last:tw-pr-5 tw-whitespace-nowrap">
+                                <div class="tw-font-semibold tw-text-left">CPF</div>
                             </th>
                             <th class="tw-px-2 tw-py-3 first:tw-pl-5 last:tw-pr-5 tw-whitespace-nowrap">
                                 <div class="tw-font-semibold tw-text-left">Contato</div>
@@ -126,6 +177,13 @@
                         <!-- Row -->
                         <tr v-for=" item in dataResults">
                             <td class="tw-px-2 tw-py-3 first:tw-pl-5 last:tw-pr-5 tw-whitespace-nowrap">
+                                <div class="tw-font-normal tw-text-gym-blue100/80 tw-text-base tw-flex tw-items-center">
+                                    <span class="tw-max-w-[150px] tw-truncate">
+                                        {{ item.id }}
+                                    </span>
+                                </div>
+                            </td>
+                            <td class="tw-px-2 tw-py-3 first:tw-pl-5 last:tw-pr-5 tw-whitespace-nowrap">
                                 <div :title="item.name"
                                     class="tw-font-normal tw-text-gym-blue100/80 tw-text-base tw-flex tw-items-center">
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
@@ -136,6 +194,13 @@
                                     </svg>
                                     <span class="tw-max-w-[150px] tw-truncate">
                                         {{ item.name }}
+                                    </span>
+                                </div>
+                            </td>
+                            <td class="tw-px-2 tw-py-3 first:tw-pl-5 last:tw-pr-5 tw-whitespace-nowrap">
+                                <div class="tw-font-normal tw-text-gym-blue100/80 tw-text-base tw-flex tw-items-center">
+                                    <span class="tw-max-w-[150px] tw-truncate">
+                                        {{ item.cpf }}
                                     </span>
                                 </div>
                             </td>
@@ -236,7 +301,8 @@
                                     </svg>
                                 </button>
                                 <Modal :showModal="shouldShowEditModal(item.id)"
-                                    :titleModal="`Editar cliente: ${item.name}`" :maxWSize="'tw-max-w-full lg:tw-max-w-[30%]'" @close="() => {
+                                    :titleModal="`Editar cliente: ${item.name}`"
+                                    :maxWSize="'tw-max-w-full lg:tw-max-w-[30%]'" @close="() => {
                                         showModalviewEdit[item.id] = false;
                                     }
                                         ">
@@ -250,10 +316,17 @@
                                                 placeholder="Digite o nome do cliente"
                                                 class="tw-border tw-border-gray-400 tw-w-full tw-p-2 tw-mt-2 tw-outline-none" />
                                             <h6 style="margin-bottom: 0"
+                                                class="tw-font-medium tw-text-sm tw-whitespace-normal tw-text-secondary-700 dark:text-secondary-400">
+                                                CPF
+                                            </h6>
+                                            <input rows="1" v-model="selectedClient.cpf"
+                                                placeholder="Digite o cpf do cliente"
+                                                class="tw-border tw-border-gray-400 tw-w-full tw-p-2 tw-mt-2 tw-outline-none" />
+                                            <h6 style="margin-bottom: 0"
                                                 class="tw-font-medium tw-text-sm tw-whitespace-normal tw-text-secondary-700 dark:text-secondary-400 tw-mt-3">
                                                 Contato
                                             </h6>
-                                            <input @input="formatPhoneNumber" rows="1" v-model="selectedClient.contato"
+                                            <input @input="formatPhoneNumberEdit" rows="1" v-model="selectedClient.contato"
                                                 placeholder="Digite o contato do cliente"
                                                 class="tw-border tw-border-gray-400 tw-w-full tw-p-2 tw-mt-2 tw-outline-none" />
                                             <h6 style="margin-bottom: 0"
@@ -372,6 +445,7 @@ export default {
             options: ["pago", "pendente", "vencido"],
             cliente: {
                 name: "",
+                cpf: "",
                 contato: "",
                 endereco: "",
                 servico: "",
@@ -379,12 +453,27 @@ export default {
                 vencimento: "",
                 datadenascimento: "",
             },
+            filters: {
+                search: '',
+                searchType: 'autor',
+                status: '',
+            },
             dataResults: [],
             selectedClient: {},
             isValidPhoneNumber: true,
             currentPage: 1,
             dataAnalyticsTableType: {},
         };
+    },
+
+    watch: {
+        filters: {
+            deep: true,
+            handler(newValue) {
+                this.currentPage = 1;
+                this.listClientes(newValue);
+            }
+        },
     },
 
     mounted() {
@@ -408,6 +497,22 @@ export default {
             }
 
             this.cliente.contato = formattedNumber;
+        },
+        formatPhoneNumberEdit() {
+            let phoneNumber = this.selectedClient.contato.replace(/\D/g, ''); // Remove todos os caracteres não numéricos
+            let formattedNumber = '';
+
+            if (phoneNumber.length > 2) {
+                formattedNumber = `(${phoneNumber.substring(0, 2)}) `;
+            }
+
+            if (phoneNumber.length > 2) {
+                formattedNumber += `${phoneNumber.substring(2, 7)}-${phoneNumber.substring(7, 11)}`;
+            } else {
+                formattedNumber = phoneNumber;
+            }
+
+            this.selectedClient.contato = formattedNumber;
         },
         formatCurrency() {
             // Salvar a posição do cursor
@@ -456,9 +561,11 @@ export default {
             // Enviar uma solicitação GET para baixar o arquivo com os dados do usuário
             window.location.href = `/clientes/${userId}/download`;
         },
-        listClientes() {
+        listClientes(newValue) {
             axios
-                .get(`/clientes?page=${this.currentPage}`)
+                .get(`/clientes?page=${this.currentPage}`, {
+                    params: newValue,
+                })
                 .then((response) => {
                     // Dados dos clientes estão em response.data
                     this.dataResults = response.data.data;
