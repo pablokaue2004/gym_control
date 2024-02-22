@@ -14,9 +14,10 @@ return new class () extends Migration {
             $table->id();
             $table->timestamps();
             $table->string('name');
-            $table->string('cpf');
+            $table->string('cpf')->unique();
             $table->string('contato');
             $table->string('numeropessoas');
+            $table->string('observacao')->nullable();
             $table->string('endereco');
             $table->string('servico');
             $table->string('valor');

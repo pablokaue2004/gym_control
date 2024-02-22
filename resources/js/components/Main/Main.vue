@@ -89,6 +89,14 @@
                                     </select>
                                 </div>
                             </div>
+                            <div>
+                                <h6 style="margin-bottom: 0"
+                                    class="tw-font-medium tw-text-sm tw-whitespace-normal tw-text-secondary-700 dark:text-secondary-400">
+                                    Observação
+                                </h6>
+                                <input rows="1" v-model="cliente.observacao" placeholder="Digite uma observação"
+                                    class="tw-w-full tw-border tw-border-gray-400 tw-p-2 tw-mt-2 tw-outline-none" />
+                            </div>
                         </div>
                         <button @click="submitForm()"
                             class="tw-mt-3 tw-bg-gym-blue100 tw-text-white tw-py-2 tw-px-4 tw-rounded tw-font-medium tw-transition tw-duration-300 tw-ease-in-out hover:tw-bg-gym-blue200">
@@ -133,7 +141,7 @@
             </div>
             <div class="tw-w-10/12 tw-overflow-x-auto tw-flex tw-py-4">
                 <div v-if="dataResults.length == 0"
-                    class="tw-w-3/4 tw-p-3 tw-rounded-lg tw-flex tw-justify-center tw-bg-white tw-shadow-md tw-mt-1">
+                    class="tw-w-full tw-p-3 tw-rounded-lg tw-flex tw-justify-center tw-bg-white tw-shadow-md tw-mt-1">
                     <span class="tw-font-bold">Não existe dados na tabela :/</span>
                 </div>
 
@@ -322,6 +330,15 @@
                                         </path>
                                     </svg>
                                 </button>
+                                <button @click="observacaoModal(item.observacao)"
+                                    class="tw-ml-2 tw-bg-green-600 tw-text-white tw-py-2 tw-px-2 tw-rounded-full tw-font-medium tw-transition tw-duration-300 tw-ease-in-out hover:tw-bg-blue-700">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#f8f7f7"
+                                        viewBox="0 0 256 256">
+                                        <path
+                                            d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm0,192a88,88,0,1,1,88-88A88.1,88.1,0,0,1,128,216Zm16-40a8,8,0,0,1-8,8,16,16,0,0,1-16-16V128a8,8,0,0,1,0-16,16,16,0,0,1,16,16v40A8,8,0,0,1,144,176ZM112,84a12,12,0,1,1,12,12A12,12,0,0,1,112,84Z">
+                                        </path>
+                                    </svg>
+                                </button>
                                 <Modal :showModal="shouldShowEditModal(item.id)"
                                     :titleModal="`Editar cliente: ${item.name}`"
                                     :maxWSize="'tw-max-w-full lg:tw-max-w-[30%]'" @close="() => {
@@ -410,6 +427,13 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        <h6 style="margin-bottom: 0"
+                                            class="tw-font-medium tw-text-sm tw-whitespace-normal tw-text-secondary-700 dark:text-secondary-400">
+                                            Observação
+                                        </h6>
+                                        <input rows="1" v-model="selectedClient.observacao"
+                                            placeholder="Digite o cpf do cliente"
+                                            class="tw-border tw-border-gray-400 tw-w-full tw-p-2 tw-mt-2 tw-outline-none" />
                                         <button @click="updateCliente(item.id)"
                                             class="tw-mt-3 tw-bg-gym-blue100 tw-text-white tw-py-2 tw-px-4 tw-rounded tw-font-medium tw-transition tw-duration-300 tw-ease-in-out hover:tw-bg-gym-blue200">
                                             Editar
@@ -474,6 +498,7 @@ export default {
                 vencimento: "",
                 datadenascimento: "",
                 numeropessoas: "",
+                observacao: "",
             },
             filters: {
                 search: '',
@@ -521,6 +546,20 @@ export default {
             }
 
             this.cliente.contato = formattedNumber;
+        },
+        observacaoModal(obs) {
+            if (obs != null) {
+                Swal.fire({
+                    title: "Essa observação foi salva",
+                    text: `- ${obs}`,
+                    icon: "info"
+                });
+            } else {
+                Swal.fire({
+                    title: "Sem Observações",
+                    icon: "info"
+                });
+            }
         },
         formatPhoneNumberEdit() {
             let phoneNumber = this.selectedClient.contato.replace(/\D/g, ''); // Remove todos os caracteres não numéricos
@@ -575,7 +614,11 @@ export default {
                 this.listClientes();
                 this.$emit("close");
 
-                this.downloadUserData(response.data.id);
+                console.log(response);
+
+                if (response.data.status == 'pago') {
+                    this.downloadUserData(response.data.id);
+                }
                 Swal.fire({
                     position: "top-end",
                     icon: "success",
@@ -629,7 +672,11 @@ export default {
                     });
                     this.toggleViewEdit(clientId);
 
-                    this.downloadUserData(clientId);
+                    console.log(response);
+
+                    if (response.data.status == 'pago') {
+                        this.downloadUserData(clientId);
+                    }
                 })
                 .catch((error) => {
                     Swal.fire({

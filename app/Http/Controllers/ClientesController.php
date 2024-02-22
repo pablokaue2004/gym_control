@@ -19,6 +19,7 @@ class ClientesController extends Controller
             'contato' => 'required|max:255',
             'endereco' => 'required|max:255',
             'numeropessoas' => 'required|max:255',
+            'observacao' => 'max:255',
             'servico' => 'required|max:255',
             'valor' => 'required|max:255',
             'vencimento' => 'required|date',
@@ -28,7 +29,10 @@ class ClientesController extends Controller
         $cliente = Cliente::create($request->all());
 
         // Retorne o ID do cliente na resposta
-        return response()->json(['id' => $cliente->id]);
+        return response()->json([
+            'status' => $cliente->status,
+            'id' => $cliente->id
+        ]);
     }
 
     public function index(Request $request)
@@ -79,6 +83,7 @@ class ClientesController extends Controller
             'contato' => 'required|max:255',
             'endereco' => 'required|max:255',
             'numeropessoas' => 'required|max:255',
+            'observacao' => 'max:255',
             'servico' => 'required|max:255',
             'valor' => 'required|max:255',
             'vencimento' => 'required|date',
@@ -89,6 +94,7 @@ class ClientesController extends Controller
         $cliente->update($request->all());
 
         return response()->json([
+            'status' => $cliente->status,
             'message' => 'Cliente atualizado com sucesso!'
         ]);
     }
