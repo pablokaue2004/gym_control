@@ -49,14 +49,6 @@
                             </h6>
                             <input rows="1" v-model="cliente.endereco" placeholder="ex: Rua Conego Ísmar Fernandes"
                                 class="tw-border tw-border-gray-400 tw-w-full tw-p-2 tw-mt-2 tw-outline-none" />
-                            <div class="tw-col-span-2">
-                                <h6 style="margin-bottom: 0"
-                                    class="tw-font-medium tw-text-sm tw-whitespace-normal tw-text-secondary-700 dark:text-secondary-400 tw-mt-3">
-                                    Data de Nascimento
-                                </h6>
-                                <input v-model="cliente.datadenascimento" rows="1" type="date" placeholder="ex: 12/03/2004"
-                                    class="tw-border tw-border-gray-400 tw-w-full tw-p-2 tw-mt-2 tw-outline-none" />
-                            </div>
                             <div class="tw-grid tw-grid-cols-3 tw-gap-2 tw-items-center">
                                 <div class="tw-col-span-2">
                                     <h6 style="margin-bottom: 0"
@@ -376,15 +368,6 @@
                                             <input rows="1" v-model="selectedClient.endereco"
                                                 placeholder="Digite o contato do cliente"
                                                 class="tw-border tw-border-gray-400 tw-w-full tw-p-2 tw-mt-2 tw-outline-none" />
-                                            <div class="tw-col-span-2">
-                                                <h6 style="margin-bottom: 0"
-                                                    class="tw-font-medium tw-text-sm tw-whitespace-normal tw-text-secondary-700 dark:text-secondary-400 tw-mt-3">
-                                                    Data de Nascimento
-                                                </h6>
-                                                <input v-model="selectedClient.datadenascimento" rows="1" type="date"
-                                                    placeholder="Adicionar recado"
-                                                    class="tw-border tw-border-gray-400 tw-w-full tw-p-2 tw-mt-2 tw-outline-none" />
-                                            </div>
                                             <div class="tw-grid tw-grid-cols-3 tw-gap-2 tw-items-center">
                                                 <div class="tw-col-span-2">
                                                     <h6 style="margin-bottom: 0"
