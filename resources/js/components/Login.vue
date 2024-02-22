@@ -1,7 +1,7 @@
 <template>
     <div className="tw-h-screen tw-w-full tw-flex tw-items-center tw-justify-center">
         <div className="tw-fixed tw-inset-0">
-            <img src="/build/static/images/logo.png" class="tw-w-full tw-h-full tw-object-cover" alt="" />
+            <img src="@imagesEataticas/logo.png" className="tw-w-full tw-h-full tw-object-cover" alt="" />
         </div>
         <div
             className="tw-fixed tw-inset-0 tw-flex tw-items-center tw-justify-center tw-backdrop-blur-md tw-bg-blue-700/30">
