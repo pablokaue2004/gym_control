@@ -38,6 +38,13 @@
                                 class="tw-border tw-border-gray-400 tw-w-full tw-p-2 tw-mt-2 tw-outline-none" />
                             <h6 style="margin-bottom: 0"
                                 class="tw-font-medium tw-text-sm tw-whitespace-normal tw-text-secondary-700 dark:text-secondary-400 tw-mt-3">
+                                Numero de pessoas na casa
+                            </h6>
+                            <input rows="1" v-model="cliente.numeropessoas"
+                                placeholder="Digite o contato do cliente"
+                                class="tw-border tw-border-gray-400 tw-w-full tw-p-2 tw-mt-2 tw-outline-none" />
+                            <h6 style="margin-bottom: 0"
+                                class="tw-font-medium tw-text-sm tw-whitespace-normal tw-text-secondary-700 dark:text-secondary-400 tw-mt-3">
                                 Endereço
                             </h6>
                             <input rows="1" v-model="cliente.endereco" placeholder="ex: Rua Conego Ísmar Fernandes"
@@ -170,6 +177,12 @@
                                 <div class="tw-font-semibold tw-text-left">Endereço</div>
                             </th>
                             <th class="tw-px-2 tw-py-3 first:tw-pl-5 last:tw-pr-5 tw-whitespace-nowrap">
+                                <div class="tw-font-semibold tw-text-left">Nº Pessoas</div>
+                            </th>
+                            <th class="tw-px-2 tw-py-3 first:tw-pl-5 last:tw-pr-5 tw-whitespace-nowrap">
+                                <div class="tw-font-semibold tw-text-left">Criado em</div>
+                            </th>
+                            <th class="tw-px-2 tw-py-3 first:tw-pl-5 last:tw-pr-5 tw-whitespace-nowrap">
                             </th>
                         </tr>
                     </thead>
@@ -221,6 +234,7 @@
                                     </span>
                                 </div>
                             </td>
+
                             <td class="tw-px-2 tw-py-3 first:tw-pl-5 last:tw-pr-5 tw-whitespace-nowrap">
                                 <span :title="item.vencimento"
                                     class="tw-font-normal tw-truncate tw-text-gym-blue100/80 tw-text-base tw-flex tw-items-center">
@@ -284,6 +298,22 @@
                                     </span>
                                 </div>
                             </td>
+                            <td class="tw-px-2 tw-py-3 first:tw-pl-5 last:tw-pr-5 tw-max-w-[250px] tw-whitespace-nowrap">
+                                <div :title="item.numeropessoas"
+                                    class="tw-font-normal tw-text-gym-blue100/80 tw-text-base tw-flex tw-items-center">
+                                    <span class="tw-max-w-[150px] tw-truncate">
+                                        {{ item.numeropessoas }}
+                                    </span>
+                                </div>
+                            </td>
+                            <td class="tw-px-2 tw-py-3 first:tw-pl-5 last:tw-pr-5 tw-max-w-[250px] tw-whitespace-nowrap">
+                                <div :title="item.created_at"
+                                    class="tw-font-normal tw-text-gym-blue100/80 tw-text-base tw-flex tw-items-center">
+                                    <span class="tw-max-w-[150px] tw-truncate">
+                                        {{ item.created_at }}
+                                    </span>
+                                </div>
+                            </td>
                             <td class="tw-px-2 tw-py-3 first:tw-pl-5 last:tw-pr-5 tw-whitespace-nowrap">
                                 <button @click="toggleViewEdit(item.id)"
                                     class="tw-bg-gym-blue100 tw-text-white tw-py-2 tw-px-2 tw-rounded-full tw-font-medium tw-transition tw-duration-300 tw-ease-in-out hover:tw-bg-gym-blue200">
@@ -329,6 +359,14 @@
                                                 Contato
                                             </h6>
                                             <input @input="formatPhoneNumberEdit" rows="1" v-model="selectedClient.contato"
+                                                placeholder="Digite o contato do cliente"
+                                                class="tw-border tw-border-gray-400 tw-w-full tw-p-2 tw-mt-2 tw-outline-none" />
+                                            <h6 style="margin-bottom: 0"
+                                                class="tw-font-medium tw-text-sm tw-whitespace-normal tw-text-secondary-700 dark:text-secondary-400 tw-mt-3">
+                                                Numero de pessoas na casa
+                                            </h6>
+                                            <input @input="formatPhoneNumberEdit" rows="1"
+                                                v-model="selectedClient.numeropessoas"
                                                 placeholder="Digite o contato do cliente"
                                                 class="tw-border tw-border-gray-400 tw-w-full tw-p-2 tw-mt-2 tw-outline-none" />
                                             <h6 style="margin-bottom: 0"
@@ -454,6 +492,7 @@ export default {
                 valor: "",
                 vencimento: "",
                 datadenascimento: "",
+                numeropessoas: "",
             },
             filters: {
                 search: '',
@@ -481,6 +520,8 @@ export default {
     mounted() {
         this.listClientes();
     },
+
+
 
 
     methods: {

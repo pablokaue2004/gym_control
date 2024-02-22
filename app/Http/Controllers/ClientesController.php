@@ -18,10 +18,10 @@ class ClientesController extends Controller
             'cpf' => 'required|max:255',
             'contato' => 'required|max:255',
             'endereco' => 'required|max:255',
+            'numeropessoas' => 'required|max:255',
             'servico' => 'required|max:255',
             'valor' => 'required|max:255',
             'vencimento' => 'required|date',
-            'datadenascimento' => 'required|date',
         ]);
 
         // Crie um novo cliente no banco de dados usando o modelo Cliente
@@ -78,10 +78,10 @@ class ClientesController extends Controller
             'cpf' => 'required|max:255',
             'contato' => 'required|max:255',
             'endereco' => 'required|max:255',
+            'numeropessoas' => 'required|max:255',
             'servico' => 'required|max:255',
             'valor' => 'required|max:255',
             'vencimento' => 'required|date',
-            'datadenascimento' => 'required|date',
             'status' => 'required',
         ]);
 
@@ -116,10 +116,11 @@ class ClientesController extends Controller
             'Nome: ' => $cliente->name,
             'CPF: ' => $cliente->cpf,
             'Contato: ' => $cliente->contato,
+            'Numero de Pessoas na casa: ' => $cliente->numeropessoas,
             'Endereço: ' => $cliente->endereco,
             'Serviço: ' => $cliente->servico,
             'Valor: ' => $cliente->valor,
-            // Adicione outros campos aqui conforme necessário
+            'Cliente criado: ' => $cliente->created_at,
         ];
 
         // Se a opção de pagamento estiver selecionada, adicione a data do pagamento aos dados
