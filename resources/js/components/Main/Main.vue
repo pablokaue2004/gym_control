@@ -139,7 +139,7 @@
                     </div>
                 </div>
             </div>
-            <div class="tw-w-10/12 tw-overflow-x-auto tw-flex tw-py-4">
+            <div class="tw-w-11/12 tw-overflow-x-auto tw-flex tw-py-4">
                 <div v-if="dataResults.length == 0"
                     class="tw-w-full tw-p-3 tw-rounded-lg tw-flex tw-justify-center tw-bg-white tw-shadow-md tw-mt-1">
                     <span class="tw-font-bold">Não existe dados na tabela :/</span>
