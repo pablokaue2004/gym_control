@@ -1,6 +1,6 @@
 <template>
     <div class="tw-w-full tw-px-8 tw-py-2 tw-bg-white tw-shadow-lg tw-flex tw-items-center tw-justify-between">
-        <img class="tw-w-20" :src="require('@/storage/static/images/logo.png')" alt="" />
+        <img class="tw-w-20" src="/build/static/images/logo.png" alt="" />
         <div class="tw-grid tw-grid-cols-2 tw-gap-5">
             <a href="">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
