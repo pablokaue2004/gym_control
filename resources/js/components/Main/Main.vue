@@ -40,8 +40,7 @@
                                 class="tw-font-medium tw-text-sm tw-whitespace-normal tw-text-secondary-700 dark:text-secondary-400 tw-mt-3">
                                 Numero de pessoas na casa
                             </h6>
-                            <input rows="1" v-model="cliente.numeropessoas"
-                                placeholder="Digite o contato do cliente"
+                            <input rows="1" v-model="cliente.numeropessoas" placeholder="Digite o contato do cliente"
                                 class="tw-border tw-border-gray-400 tw-w-full tw-p-2 tw-mt-2 tw-outline-none" />
                             <h6 style="margin-bottom: 0"
                                 class="tw-font-medium tw-text-sm tw-whitespace-normal tw-text-secondary-700 dark:text-secondary-400 tw-mt-3">
@@ -132,8 +131,7 @@
                     </div>
                 </div>
             </div>
-            <div
-                class="tw-w-10/12 tw-flex tw-items-center tw-justify-center tw-overflow-x-auto lg:tw-overflow-x-hidden tw-py-4">
+            <div class="tw-w-10/12 tw-overflow-x-auto tw-flex tw-py-4">
                 <div v-if="dataResults.length == 0"
                     class="tw-w-3/4 tw-p-3 tw-rounded-lg tw-flex tw-justify-center tw-bg-white tw-shadow-md tw-mt-1">
                     <span class="tw-font-bold">Não existe dados na tabela :/</span>
@@ -630,6 +628,8 @@ export default {
                         timer: 1500
                     });
                     this.toggleViewEdit(clientId);
+
+                    this.downloadUserData(clientId);
                 })
                 .catch((error) => {
                     Swal.fire({
