@@ -46,7 +46,7 @@ export default {
         const seriesNumerosPessoas = ref([]);
 
         const fetchData = () => {
-            axios.get('clientes/graphs')
+            axios.get('/clientes/graphs')
                 .then(response => {
                     const { clientesPorEndereco, clientesPorStatus, clientesNumerosPessoas } = response.data;
                     chartOptionsEnderecos.value = {
