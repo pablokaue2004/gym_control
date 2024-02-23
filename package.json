@@ -15,10 +15,13 @@
     },
     "dependencies": {
         "@vitejs/plugin-vue": "^4.2.3",
+        "apexcharts": "^3.46.0",
         "moment": "^2.30.1",
         "sweetalert2": "^11.10.5",
         "vue": "^3.2.36",
+        "vue-apexcharts": "^1.6.2",
         "vue-loader": "^17.2.2",
-        "vue-router": "^4.2.4"
+        "vue-router": "^4.2.4",
+        "vue3-apexcharts": "^1.5.2"
     }
 }

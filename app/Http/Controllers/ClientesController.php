@@ -6,6 +6,7 @@ use App\Models\Cliente;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 use Barryvdh\DomPDF\Facade\Pdf as PDF;
+use Illuminate\Support\Facades\DB;
 
 class ClientesController extends Controller
 {
@@ -146,6 +147,35 @@ class ClientesController extends Controller
         return $pdf->download($filename);
     }
 
+    public function graphs()
+    {
+        try {
+            // Total de usuários agrupados por endereço
+            $clientesPorEndereco = Cliente::select('endereco', DB::raw('count(*) as total'))
+                ->groupBy('endereco')
+                ->pluck('total', 'endereco');
+
+            // Total de usuários agrupados por status
+            $clientesPorStatus = Cliente::select('status', DB::raw('count(*) as total'))
+                ->groupBy('status')
+                ->pluck('total', 'status');
+
+            // Total de pessoas por cliente
+
+            $clientesNumerosPessoas = Cliente::select('numeropessoas', DB::raw('count(*) as total'))
+            ->groupBy('numeropessoas')
+            ->pluck('total', 'numeropessoas');
+
+
+            return response()->json([
+                'clientesPorEndereco' => $clientesPorEndereco,
+                'clientesPorStatus' => $clientesPorStatus,
+                'clientesNumerosPessoas' => $clientesNumerosPessoas
+            ]);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Erro ao buscar dados dos gráficos: ' . $e->getMessage()], 500);
+        }
+    }
 
 
 }

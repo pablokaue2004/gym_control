@@ -10,4 +10,5 @@ Route::group(['prefix' => 'clientes'], function () {
     Route::get('/{id}/edit', [ClientesController::class, 'edit']);
     Route::delete('/{id}/delete', [ClientesController::class, 'delete']);
     Route::get('/{id}/download', [ClientesController::class, 'downloadUserData']);
+    Route::get('/graphs', [ClientesController::class, 'graphs']);
 });

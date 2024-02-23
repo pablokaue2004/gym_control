@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router";
 import Login from "../components/Login.vue";
 import Main from "../components/Main/Main.vue";
+import Charts from "../components/Charts/Charts.vue";
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -17,6 +18,12 @@ const router = createRouter({
             component: Main,
             meta: { requiresAuth: true }, // Main requires auth
         },
+        {
+            path: "/charts",
+            name: "charts",
+            component: Charts,
+            meta: { requiresAuth: true }, // Main requires auth
+        },
     ],
 });
 
@@ -30,6 +37,7 @@ router.beforeEach((to, from, next) => {
     } else if (!requiresAuth && isAuthenticated) {
         console.warn("User is already authenticated: Redirecting to Main");
         next({ name: "main" });
+        next({ name: "charts" });
     } else {
         next();
     }
