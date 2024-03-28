@@ -49,6 +49,8 @@ class ClientesController extends Controller
                     $subquery->where('status', 'vencido');
                 } elseif ($searchType === 'pendente') {
                     $subquery->where('status', 'pendente');
+                } elseif ($searchType === 'cancelado') {
+                    $subquery->where('status', 'cancelado');
                 }
             });
         })

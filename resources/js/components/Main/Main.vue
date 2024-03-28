@@ -135,6 +135,7 @@
                             <option value="pago">Pago</option>
                             <option value="vencido">Vencido</option>
                             <option value="pendente">Á vencer</option>
+                            <option value="cancelado">Cancelado</option>
                         </select>
                     </div>
                 </div>
@@ -185,10 +186,10 @@
                         </tr>
                     </thead>
                     <!-- Table body -->
-                    <tbody class="divide-gray-200 tw-text-sm tw-divide-y tw-bg-gray-50 tw-border-gray-200">
-
+                    <tbody>
                         <!-- Row -->
-                        <tr v-for=" item in dataResults">
+                        <tr :class="item.status == 'cancelado' ? 'tw-bg-gray-200' : 'divide-gray-200 tw-text-sm tw-divide-y tw-bg-gray-50 tw-border-gray-200'"
+                            v-for=" item in dataResults">
                             <td class="tw-px-2 tw-py-3 first:tw-pl-5 last:tw-pr-5 tw-whitespace-nowrap">
                                 <div class="tw-font-normal tw-text-gym-blue100/80 tw-text-base tw-flex tw-items-center">
                                     <span class="tw-max-w-[150px] tw-truncate">
@@ -250,6 +251,8 @@
                                     <div :class="item.status == 'vencido' ? 'tw-bg-red-500 tw-text-red-500' : 'tw-hidden'"
                                         class="tw-ml-2 tw-h-full tw-w-2 tw-rounded-full">.</div>
                                     <div :class="item.status == 'pendente' ? 'tw-bg-yellow-500 tw-text-yellow-500' : 'tw-hidden'"
+                                        class="tw-ml-2 tw-h-full tw-w-2 tw-rounded-full">.</div>
+                                    <div :class="item.status == 'cancelado' ? 'tw-bg-gray-500 tw-text-gray-500' : 'tw-hidden'"
                                         class="tw-ml-2 tw-h-full tw-w-2 tw-rounded-full">.</div>
 
                                 </span>
@@ -446,8 +449,9 @@
                     </tbody>
                 </table>
             </div>
-            <div class="tw-w-3/4 tw-p-1 tw-rounded-lg tw-flex tw-justify-end tw-bg-white tw-shadow-md tw-mt-1">
-                <div class="tw-w-full lg:tw-w-1/4 xl:tw-w-1/4 tw-grid tw-grid-cols-3 tw-gap-1 tw-p-1">
+            <div
+                class=" tw-w-11/12 lg:tw-w-3/4 tw-p-1 tw-rounded-lg tw-flex tw-justify-end tw-bg-white tw-shadow-md tw-mt-1">
+                <div class="tw-w-full lg:tw-w-1/4 xl:tw-w-2/5 tw-grid tw-grid-cols-4 tw-gap-1 tw-p-1">
                     <div class="tw-flex">
                         <span>Pago</span>
                         <div class="tw-ml-2 tw-h-full tw-w-2 tw-rounded-full tw-bg-green-500"></div>
@@ -459,6 +463,10 @@
                     <div class="tw-flex">
                         <span>A vencer</span>
                         <div class="tw-ml-2 tw-h-full tw-w-2 tw-rounded-full tw-bg-yellow-500"></div>
+                    </div>
+                    <div class="tw-flex">
+                        <span>Cancelado</span>
+                        <div class="tw-ml-2 tw-h-full tw-w-2 tw-rounded-full tw-bg-gray-500"></div>
                     </div>
                 </div>
             </div>
@@ -487,7 +495,7 @@ export default {
         return {
             showModalview: false,
             showModalviewEdit: {},
-            options: ["pago", "pendente", "vencido"],
+            options: ["pago", "pendente", "vencido", "cancelado"],
             cliente: {
                 name: "",
                 cpf: "",
